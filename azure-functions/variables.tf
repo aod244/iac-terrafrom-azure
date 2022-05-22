@@ -18,6 +18,11 @@ variable "account_replication_type" {
     default = "LRS"
 }
 
+variable "account_tier" {
+    type = string
+    default = "Standard"
+}
+
 variable "tier" {
     type = string
     default = "Standard"

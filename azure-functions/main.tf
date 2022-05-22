@@ -11,19 +11,18 @@ resource "azurerm_storage_account" "example" {
   name                     = "plikazure"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  account_tier             = var.account_tier
+  account_replication_type = var.account_replication_type
 }
 
 resource "azurerm_app_service_plan" "example" {
   name                = "api-appserviceplan-pro"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
-  kind                = "FunctionApp"
 
   sku {
-    tier = var.account_tier
-    size = var.account_size
+    tier = var.tier
+    size = var.size
   }
 }
 
@@ -41,7 +40,7 @@ resource "azurerm_linux_function_app" "example" {
 resource "azurerm_function_app_function" "example" {
   name            = "example-function-app-function"
   function_app_id = azurerm_linux_function_app.example.id
-  language        = "Python"
+  language        = var.language
   test_data = jsonencode({
     "name" = "Azure"
   })
