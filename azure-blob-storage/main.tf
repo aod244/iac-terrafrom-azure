@@ -5,13 +5,13 @@ resource "azurerm_resource_group" "example" {
 
 resource "azurerm_storage_account" "example" {
   name                     = "storageaccountname"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
+  resource_group_name      = var.account_name
+  location                 = var.location
+  account_tier             = var.acc_tier
+  account_replication_type = var.acc_rep_type
 
   tags = {
-    environment = "staging"
+    environment = var.environment
   }
 }
 
@@ -23,7 +23,7 @@ data "azurerm_storage_container" "example" {
 resource "azurerm_storage_blob" "example" {
   name                   = "my-awesome-content.zip"
   storage_account_name   = azurerm_storage_account.example.name
-  storage_container_name = azurerm_storage_container.example.name
+  storage_container_name = var.container_name
   type                   = "Block"
-  source                 = "some-local-file.zip"
+  source                 = var.source
 }
